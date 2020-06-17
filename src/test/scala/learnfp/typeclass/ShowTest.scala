@@ -17,4 +17,8 @@ class ShowTest extends FlatSpec with Matchers {
   it should "show list of int" in {
     Printer.show(List(5, 10, 20)) shouldBe "[5, 10, 20]"
   }
+
+  it should "show empty list of int" in {
+    Printer.show(List[Int]()) shouldBe "[]"
+  }
 }
