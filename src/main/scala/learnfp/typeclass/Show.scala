@@ -9,6 +9,12 @@ object Printer {
     showInstance.show(x)
   }
 }
+//Equivalent to:
+//object Printer {
+//  def show[A:Show](x:A):String = {
+//    implicitly[Show[A]].show(x)
+//  }
+//}
 
 object ShowInstances {
   implicit val intInstance:Show[Int] = new Show[Int] {
