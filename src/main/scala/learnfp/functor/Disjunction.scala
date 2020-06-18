@@ -11,8 +11,12 @@ object Disjunction {
 
 object DisjunctionInstance {
   import Disjunction._
+  //this uses a lambda types because Functor requires a type with just one type parameter and disjunction has two
   implicit def eitherInstance[L] = new Functor[({type E[A] = Disjunction[L, A]})#E] {
-    override def fmap[A, B](a: Disjunction[L, A])(fx: A => B): Disjunction[L, B] = ???
+    override def fmap[A, B](a: Disjunction[L, A])(fx: A => B): Disjunction[L, B] = a match {
+      case RightDisjunction(xa) => RightDisjunction(fx(xa))
+      case LeftDisjunction(l) => LeftDisjunction[L,B](l)
+    }
   }
 
   implicit def baseToFunctorOps[L, R, D[L, R] <: Disjunction[L, R]](disjunction: D[L, R])

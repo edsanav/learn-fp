@@ -6,11 +6,15 @@ trait Monoid[A] {
 }
 
 object Monoid {
+
+  def apply[A](implicit monoid: Monoid[A]):Monoid[A] = monoid
+
   def mzero[A](implicit monoid:Monoid[A]):A = monoid.mzero
 }
 
-class MonoidOps[A](lhs:A)(implicit monoid:Monoid[A]) {
-  def |+|(rhs:A):A = monoid.mappend(lhs, rhs)
+class MonoidOps[A:Monoid](lhs:A) {
+  // EDU: Put in the class because it's to be used as  A op B
+  def |+|(rhs:A):A = Monoid[A].mappend(lhs, rhs)
 }
 
 object MonoidOps {
