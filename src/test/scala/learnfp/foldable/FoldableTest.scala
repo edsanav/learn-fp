@@ -14,7 +14,7 @@ class FoldableTest extends WordSpecLike with Matchers {
     }
 
     "work with list" in {
-      List("a", "b", "c").myfoldr("init"){(x, a) => a + x} shouldBe ("initcba")
+      List("a", "b", "c").myfoldr("init"){(x, a) => a + x} shouldBe ("initabc")
     }
 
     "work with tuples" in {

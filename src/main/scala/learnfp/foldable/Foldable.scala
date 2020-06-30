@@ -10,11 +10,14 @@ trait Foldable[C[_]] {
 
 object FoldableInstances {
   implicit def idFoldable = new Foldable[Id] {
-    override def foldr[A, B](xs: Id[A])(init: B)(fx: (A, B) => B): B = ???
+    override def foldr[A, B](xs: Id[A])(init: B)(fx: (A, B) => B): B = fx(xs.value, init)
   }
 
   implicit def listFoldable = new Foldable[List] {
-    override def foldr[A, B](xs: List[A])(init: B)(fx: (A, B) => B): B = ???
+    override def foldr[A, B](xs: List[A])(init: B)(fx: (A, B) => B): B = xs match {
+      case x::xs => foldr(xs)(fx(x, init))(fx)
+      case Nil => init
+    }
   }
 
   implicit def tuple2Foldable = new Foldable[({type E[X] = Tuple2[X, X]})#E] {
